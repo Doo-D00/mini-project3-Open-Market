@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     if (submitBtn.classList.contains('active')) {
       alert('회원가입이 완료되었습니다!');
+      window.location.href = 'index.html';
     }
   });
 
