@@ -89,6 +89,27 @@ iconBtns.forEach((btn, index) => {
 
 // Smooth scrolling for better UX
 document.addEventListener('DOMContentLoaded', function() {
+    const userType = localStorage.getItem('userType');
+    const headerIcons = document.querySelector('.header-icons');
+
+    if (userType === 'seller') {
+    // 장바구니 버튼 제거
+    const cartWrapper = headerIcons.querySelector('.icon-wrapper:first-child');
+    if (cartWrapper) {
+    cartWrapper.remove();
+    }
+
+    // 판매자 센터 버튼 추가
+    const sellerBtn = document.createElement('button');
+    sellerBtn.classList.add('seller-center-btn');
+    sellerBtn.textContent = '판매자 센터';
+    sellerBtn.addEventListener('click', function() {
+    window.location.href = 'seller-center.html';
+    });
+
+    headerIcons.appendChild(sellerBtn);
+}
+
     // Add smooth scroll behavior
     document.documentElement.style.scrollBehavior = 'smooth';
     

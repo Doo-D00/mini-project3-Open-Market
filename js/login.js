@@ -15,6 +15,23 @@ tabs.forEach(tab => {
 document.getElementById('loginForm').addEventListener('submit', function (e) {
   e.preventDefault();
 
+
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // 로그인 로직 수행 후
+  const activeTab = document.querySelector('.tab.active').dataset.tab;
+
+  // 예: 로그인 성공 시
+  if (activeTab === 'seller') {
+    localStorage.setItem('userType', 'seller');
+  } else {
+    localStorage.setItem('userType', 'buyer');
+  }
+
+  window.location.href = 'index.html';
+});
+
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value.trim();
   const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
