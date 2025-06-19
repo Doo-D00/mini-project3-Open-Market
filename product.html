@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HODU Product Details</title>
+  <link rel="stylesheet" href="./css/product.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo"><img src="./img/Logo-hodu.png" alt="Hodu 로고"></div>
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="상품을 검색해보세요!">
+        <button class="search-btn"><img src="./img/search.png" alt="검색 아이콘 "></button>
+      </div>
+      <div class="header-icons">
+        <a href="#" class="header-icon">
+          <img src="./img/icon-shopping-cart.svg" alt="장바구니 아이콘">
+          <span>장바구니</span>
+        </a>
+        <a href="#" class="header-icon">
+          <img src="./img/icon-user.svg" alt="마이페이지 아이콘">
+          <span>마이페이지</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="product-image">
+      <img src="./images/jammanbo.png" alt="잠만보">
+    </div>
+    
+    <div class="product-details">
+      <div class="breadcrumb">백엔드글로벌</div>
+      <h1 class="product-title">딥러닝 개발자 무릎 담요</h1>
+      <div class="price">17,500<span class="price-unit">원</span></div>
+      <div class="delivery-info">택배배송 / 무료배송</div>
+      
+      <div class="quantity-section">
+        <div class="quantity-controls">
+          <button class="quantity-btn" onclick="decreaseQuantity()">
+            <img src="./img/icon-minus-line.svg" alt="마이너스">
+          </button>
+          <input type="number" class="quantity-input" id="quantity" value="1" min="1">
+          <button class="quantity-btn" onclick="increaseQuantity()">
+            <img src="./img/icon-plus-line.svg" alt="플러스">
+          </button>
+        </div>
+      </div>
+
+      <div class="total-section">
+        <div class="total-calculation">
+          <div class="total-label">총 상품 금액</div>
+          <div class="total-summary">
+            총 수량 <span id="total-quantity">1</span>개 | 
+            <span class="total-price" id="total-price">17,500원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-primary">바로 구매</button>
+        <button class="btn btn-secondary">장바구니</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="tabs">
+    <div class="tab-list">
+      <button class="tab active">버튼</button>
+      <button class="tab">리뷰</button>
+      <button class="tab">Q&A</button>
+      <button class="tab">반품/교환정보</button>
+    </div>
+  </div>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-links">
+        <a href="#">호두샵 소개</a> |
+        <a href="#">이용약관</a> |
+        <a href="#"><strong>개인정보처리방침</strong></a> |
+        <a href="#">전자금융거래약관</a> |
+        <a href="#">청소년보호정책</a> |
+        <a href="#">제휴문의</a>
+      </div>
+      <div class="footer-sns">
+        <a href="#"><img src="./img/icon-insta.svg" alt="인스타그램"></a>
+        <a href="#"><img src="./img/icon-fb.svg" alt="페이스북"></a>
+        <a href="#"><img src="./img/icon-yt.svg" alt="유튜브"></a>
+      </div>
+    </div>
+    <hr class="footer-line">
+    <div class="footer-info">
+      <p>(주)HODU SHOP<br>
+      제주특별자치도 제주시 동광고 137 제주코딩베이스캠프<br>
+      사업자 번호 : 000-0000-0000 | 통신판매업<br>
+      대표 : 김호두</p>
+    </div>
+  </div>
+</footer>
+
+
+  <script src="./js/product.js"></script>
+</body>
+</html>

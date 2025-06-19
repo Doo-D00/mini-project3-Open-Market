@@ -1,0 +1,292 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+}
+
+.form-container {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+  max-width: 550px;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tab {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  background: #f8f9fa;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6c757d;
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  background: white;
+  color: #333;
+  border-bottom: 2px solid #21bf48;
+}
+
+.form-content {
+  padding: 40px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.input-with-button {
+  display: flex;
+  gap: 10px;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+}
+
+.check-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #21bf48;
+}
+
+.phone-inputs {
+  display: flex;
+  gap: 10px;  
+}
+
+.phone-select {
+  width: 80px;
+  padding: 12px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.phone-input {
+  flex: 1;  
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.phone-select {
+  width: 80px;
+  padding: 12px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  background: white url('./img/icon-down-arrow.svg') no-repeat right 10px center;
+  background-size: 16px 16px; 
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.phone-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.phone-input:focus, .phone-select:focus {
+  border-color: #21bf48;
+  outline: none;
+}
+
+.check-btn {
+  background: #21bf48;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.check-btn:hover {
+  background: #1ea83f;
+}
+
+.terms-group {
+  margin-top: 20px;
+}
+
+.terms-label {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.terms-label input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.agreement-text {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 18px;
+  background: #999;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #888;
+}
+
+.submit-btn.active {
+  background: #21bf48;
+}
+
+.submit-btn.active:hover {
+  background: #1ea83f;
+}
+
+.error-msg {
+    color: #ff4d4f;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* 판매자 */
+#sellerFields {
+  margin-top: 20px;
+}
+
+#sellerFields .form-group {
+  margin-bottom: 20px;
+}
+
+#sellerFields .form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+#sellerFields .input-with-button {
+  display: flex;
+  gap: 10px;
+}
+
+#sellerFields input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#sellerFields input:focus {
+  border-color: #21bf48;
+  outline: none;
+}
+
+#sellerFields .check-btn {
+  background: #21bf48;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#sellerFields .check-btn:hover {
+  background: #1ea83f;
+}
+
+#sellerFields .error-msg {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+  .form-content {
+    padding: 30px 20px;
+  }
+
+  .input-with-button {
+    flex-direction: column;
+  }
+
+  .check-btn {
+    width: 100%;
+  }
+}

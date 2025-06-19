@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 호두</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+            <div class="logo-search">
+                <div class="logo">
+                    <h1><img src="./img/Logo-hodu.png" alt="Hodu 로고" class="logo-img"></h1>
+                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="상품을 검색해보세요!">
+                    <button class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+                
+                <!-- Header Icons -->
+            <div class="header-icons">
+                <div class="icon-wrapper">
+                    <button class="icon-btn">
+                        <img src="./img/icon-shopping-cart.svg" alt="장바구니">
+                    </button>
+                    <span class="icon-label">장바구니</span>
+                </div>
+                <div class="icon-wrapper">
+                    <button class="icon-btn" id="loginBtn">
+                        <img src="./img/icon-user.svg" alt="로그인">
+                    </button>
+                    <span class="icon-label">로그인</span>
+                </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Banner Section -->
+        <section class="banner-section">
+            <div class="banner-container">
+                <button class="banner-nav prev" onclick="previousSlide()">
+                <img src="./img/icon-swiper-1.svg" alt="왼쪽 화살표">
+                </button>
+                
+                <div class="banner-content">
+                    <div class="banner-slide active">
+                        <!-- Banner content would go here -->
+                    </div>
+                </div>
+                
+                <button class="banner-nav next" onclick="nextSlide()">
+                <img src="./img/icon-swiper-2.svg" alt="오른쪽 화살표">
+                </button>
+            </div>
+            
+            <!-- Banner Pagination -->
+            <div class="banner-pagination">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products-section">
+            <div class="container">
+                <div class="products-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                        <img src="./images/ev.png" alt="이브이">
+                        </div>
+                        <div class="product-info">
+                            <p class="product-category">지우의 포켓몬 도감</p>
+                            <h3 class="product-title">Hack You Life 개발자 노트북 파우치</h3>
+                            <p class="product-price">29,000원</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="./images/jammanbo.png" alt="잠만보">
+                        </div>
+                        <div class="product-info">
+                            <p class="product-category">웅이의 포켓몬 도감</p>
+                            <h3 class="product-title">네 개발잡니다 개발자키링 금속키링</h3>
+                            <p class="product-price">29,000원</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="./images/mazayoung.png" alt="마자용">
+                        </div>
+                        <div class="product-info">
+                            <p class="product-category">이슬이의 포켓몬 도감</p>
+                            <h3 class="product-title">딥러닝 개발자 무릎 담요</h3>
+                            <p class="product-price">29,000원</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="./images/nyaong.png" alt="냐옹이">
+                        </div>
+                        <div class="product-info">
+                            <p class="product-category">로켓단의 포켓몬 도감</p>
+                            <h3 class="product-title">우당탕탕 라이캣의 실험실 스티커 팩</h3>
+                            <p class="product-price">29,000원</p>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="./images/pulin.png" alt="푸린">
+                        </div>
+                        <div class="product-info">
+                            <p class="product-category">지우 아빠의 포켓몬 도감</p>
+                            <h3 class="product-title">버그를 Java라 버그잡는 개리씨 키링</h3>
+                            <p class="product-price">29,000원</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">호두샵 소개</a> |
+                <a href="#">이용약관</a> |
+                <a href="#"><strong>개인정보처리방침</strong></a> |
+                <a href="#">전자금융거래약관</a> |
+                <a href="#">청소년보호정책</a> |
+                <a href="#">제휴문의</a>
+            </div>
+
+            <div class="footer-sns">
+                <a href="#"><img src="./img/icon-insta.svg" alt="인스타그램"></a>
+                <a href="#"><img src="./img/icon-fb.svg" alt="페이스북"></a>
+                <a href="#"><img src="./img/icon-yt.svg" alt="유튜브"></a>
+            </div>
+            
+            <div class="footer-info">
+            <p>(주)HODU SHOP<br>
+            제주특별자치도 제주시 동광고 137 제주코딩베이스캠프<br>
+            사업자 번호 : 000-0000-0000 | 통신판매업<br>
+            대표 : 김호두</p>
+            </div>
+
+    </footer>
+        <script src="./js/script.js"></script>
+</body>
+</html>
