@@ -1,91 +1,118 @@
-// Tab switching functionality
-const tabs = document.querySelectorAll('.tab');
+document.addEventListener('DOMContentLoaded', () => {
+  initTabs();
+  initForm();
+  initLinks();
+});
 
-tabs.forEach(tab => {
-  tab.addEventListener('click', function () {
-    tabs.forEach(t => t.classList.remove('active'));
-    this.classList.add('active');
-
-    const tabType = this.getAttribute('data-tab');
-    console.log(`Switched to ${tabType} login`);
+function initTabs() {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
   });
-});
+}
 
-// Form submission
-document.getElementById('loginForm').addEventListener('submit', function (e) {
-  e.preventDefault();
+function initForm() {
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const activeTab = document.querySelector('.tab.active').dataset.tab;
+    const errorMsg = document.getElementById('errorMessage');
+    errorMsg.textContent = '';
 
+    if (!username || !password) {
+      errorMsg.textContent = '아이디와 비밀번호를 모두 입력하세요.';
+      return;
+    }
 
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  // 로그인 로직 수행 후
-  const activeTab = document.querySelector('.tab.active').dataset.tab;
+    try {
+      // TODO: 실제 로그인 API 주소와 방식 맞게 수정
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, type: activeTab })
+      });
+      if (!res.ok) throw new Error('로그인 실패');
+      const data = await res.json();
 
-  // 예: 로그인 성공 시
-  if (activeTab === 'seller') {
-    localStorage.setItem('userType', 'seller');
-  } else {
-    localStorage.setItem('userType', 'buyer');
-  }
-
-  window.location.href = 'index.html';
-});
-
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
-  const errorMessage = document.getElementById('errorMessage');
-
-  // 기본: 메시지 초기화
-  errorMessage.textContent = '';
-
-  if (!username && !password) {
-    errorMessage.textContent = '아이디를 입력해 주세요.';
-    return;
-  }
-
-  if (!username && password) {
-    errorMessage.textContent = '아이디를 입력해 주세요.';
-    return;
-  }
-
-  if (username && !password) {
-    errorMessage.textContent = '비밀번호를 입력해 주세요.';
-    return;
-  }
-
-  if (username !== 'hodu' || password !== '1234') {
-    errorMessage.textContent = '아이디 또는 비밀번호가 일치하지 않습니다.';
-    return;
-  }
-
-  // 로그인 성공
-  errorMessage.textContent = '';
-  alert(`${activeTab === 'buyer' ? '구매회원' : '판매회원'} 로그인 성공!\n아이디: ${username}`);
-});
-
-// Footer link handlers
-document.getElementById('signupLink').addEventListener('click', function (e) {
-  e.preventDefault();
-  window.location.href = 'seller.html';
-});
-
-document.getElementById('forgotPasswordLink').addEventListener('click', function (e) {
-  e.preventDefault();
-  alert('비밀번호 찾기 페이지로 이동');
-});
-
-// Input focus effects
-const inputs = document.querySelectorAll('.form-input');
-inputs.forEach(input => {
-  input.addEventListener('focus', function () {
-    this.style.borderColor = '#21BF48';
-  });
-
-  input.addEventListener('blur', function () {
-    if (!this.value) {
-      this.style.borderColor = '#e0e0e0';
+      localStorage.setItem('userType', data.type);
+      alert(`${data.type === 'buyer' ? '구매회원' : '판매회원'} 로그인 성공`);
+      location.href = 'index.html';
+    } catch (err) {
+      console.error(err);
+      errorMsg.textContent = '아이디 또는 비밀번호가 일치하지 않습니다.';
     }
   });
+}
+
+function initLinks() {
+  document.getElementById('signupLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    location.href = 'seller.html';
+  });
+
+  document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('비밀번호 찾기 페이지로 이동');
+  });
+}
+
+// 임의로 지정된 로그인 아이디와 비밀번호
+const presetCredentials = {
+  username: 'seller1', 
+  password: 'weniv1234'
+};
+
+// 로그인 폼 submit 이벤트
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password) {
+    alert('아이디와 비밀번호를 입력해주세요.');
+    return;
+  }
+
+  await loginUser(username, password);
 });
+
+// 실제 API 요청 함수
+async function loginUser(username, password) {
+  const url = 'https://api.weniops.co.kr/services/open-market/accounts/login/';
+  const payload = { username, password };
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      console.error('로그인 실패:', data);
+      alert(data.error || '로그인 실패');
+      return false;
+    }
+
+    console.log('로그인 성공:', data);
+    alert(`로그인 성공! ${data.user.username} (${data.user.user_type})`);
+
+    localStorage.setItem('accessToken', data.access);
+    localStorage.setItem('refreshToken', data.refresh);
+    localStorage.setItem('userType', data.user.user_type);
+    localStorage.setItem('username', data.user.username);
+
+    location.href = 'index.html';
+    return true;
+
+  } catch (err) {
+    console.error('네트워크 에러:', err);
+    alert('네트워크 오류');
+    return false;
+  }
+}

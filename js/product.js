@@ -1,53 +1,51 @@
-const quantityInput = document.getElementById('quantity');
-const totalQuantitySpan = document.getElementById('total-quantity');
-const totalPriceSpan = document.getElementById('total-price');
-const basePrice = 17500;
+document.addEventListener('DOMContentLoaded', () => {
+  initQuantity();
+  initTabs();
+  initSearch();
+});
 
-function updateTotal() {
-  const quantity = parseInt(quantityInput.value);
-  const total = basePrice * quantity;
-  totalQuantitySpan.textContent = quantity;
-  totalPriceSpan.textContent = total.toLocaleString() + '원';
-}
+function initQuantity() {
+  const quantityInput = document.getElementById('quantity');
+  const totalQuantity = document.getElementById('total-quantity');
+  const totalPrice = document.getElementById('total-price');
+  const basePrice = 17500;
 
-function increaseQuantity() {
-  quantityInput.value = parseInt(quantityInput.value) + 1;
-  updateTotal();
-}
+  const update = () => {
+    const qty = parseInt(quantityInput.value) || 1;
+    totalQuantity.textContent = qty;
+    totalPrice.textContent = (qty * basePrice).toLocaleString() + '원';
+  };
 
-function decreaseQuantity() {
-  const currentValue = parseInt(quantityInput.value);
-  if (currentValue > 1) {
-    quantityInput.value = currentValue - 1;
-    updateTotal();
-  }
-}
-
-quantityInput.addEventListener('input', updateTotal);
-
-
-// Tab functionality
-const tabs = document.querySelectorAll('.tab');
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
+  document.querySelector('.quantity-btn[onclick="decreaseQuantity()"]').addEventListener('click', () => {
+    if (quantityInput.value > 1) quantityInput.value--;
+    update();
   });
-});
 
-// Search functionality
-const searchInput = document.querySelector('.search-input');
-const searchBtn = document.querySelector('.search-btn');
+  document.querySelector('.quantity-btn[onclick="increaseQuantity()"]').addEventListener('click', () => {
+    quantityInput.value++;
+    update();
+  });
 
-searchBtn.addEventListener('click', () => {
-  const searchTerm = searchInput.value.trim();
-  if (searchTerm) {
-    alert('검색어: ' + searchTerm);
-  }
-});
+  quantityInput.addEventListener('input', update);
 
-searchInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    searchBtn.click();
-  }
-});
+  update();
+}
+
+function initTabs() {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+}
+
+function initSearch() {
+  const input = document.querySelector('.search-input');
+  const btn = document.querySelector('.search-btn');
+
+  btn.addEventListener('click', () => alert(`검색어: ${input.value.trim()}`));
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') btn.click();
+  });
+}

@@ -1,131 +1,177 @@
-// Banner carousel functionality
-let currentSlideIndex = 0;
-const slides = document.querySelectorAll('.banner-slide');
-const dots = document.querySelectorAll('.dot');
+document.addEventListener('DOMContentLoaded', () => {
+    initBanner();
+    initSearch();
+    initProductCards();
+    initHeaderUI();
+});
 
-function showSlide(index) {
-    // Hide all slides
+function initBanner() {
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.banner-slide');
+    const dots = document.querySelectorAll('.dot');
+
+    const showSlide = (index) => {
     slides.forEach(slide => slide.classList.remove('active'));
     dots.forEach(dot => dot.classList.remove('active'));
-    
-    // Show current slide
     if (slides[index]) {
         slides[index].classList.add('active');
         dots[index].classList.add('active');
     }
-    
     currentSlideIndex = index;
+};
+
+document.querySelectorAll('.banner-nav.prev').forEach(btn => btn.addEventListener('click', () => {
+    showSlide((currentSlideIndex - 1 + slides.length) % slides.length);
+}));
+    document.querySelectorAll('.banner-nav.next').forEach(btn => btn.addEventListener('click', () => {
+    showSlide((currentSlideIndex + 1) % slides.length);
+}));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+
+    showSlide(0);
+    setInterval(() => showSlide((currentSlideIndex + 1) % slides.length), 5000);
 }
 
-function nextSlide() {
-    const nextIndex = (currentSlideIndex + 1) % slides.length;
-    showSlide(nextIndex);
-}
+function initSearch() {
+    const searchInput = document.querySelector('.search-input');
+    const searchBtn = document.querySelector('.search-btn');
 
-function previousSlide() {
-    const prevIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
-    showSlide(prevIndex);
-}
+    const performSearch = async () => {
+    const query = searchInput.value.trim();
+    if (!query) return;
 
-function currentSlide(index) {
-    showSlide(index - 1);
-}
-
-// Auto-advance slides every 5 seconds
-setInterval(nextSlide, 5000);
-
-// Search functionality
-const searchInput = document.querySelector('.search-input');
-const searchBtn = document.querySelector('.search-btn');
-
-function handleSearch() {
-    const searchTerm = searchInput.value.trim();
-    if (searchTerm) {
-        console.log('Searching for:', searchTerm);
-        // Here you would typically send the search query to your backend
-        alert(`검색어: ${searchTerm}`);
+    try {
+      // TODO: 실제 API 주소로 변경
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        if (!res.ok) throw new Error('검색 실패');
+        const data = await res.json();
+        console.log('검색 결과:', data);
+        alert(`검색어: ${query}`);
+    } catch (err) {
+        console.error(err);
+        alert('검색 중 오류 발생');
     }
+};
+
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') performSearch();
+});
 }
 
-searchBtn.addEventListener('click', handleSearch);
-
-searchInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        handleSearch();
-    }
-});
-
-document.getElementById('loginBtn').addEventListener('click', function() {
-    window.location.href = 'login.html';
-});
-
-// Product card click handlers
-const productCards = document.querySelectorAll('.product-card');
-
-productCards.forEach((card, index) => {
-    card.addEventListener('click', function() {
-        console.log(`Product ${index + 1} clicked`);
-        // Here you would typically navigate to the product detail page
-        alert(`상품 ${index + 1} 클릭됨`);
+function initProductCards() {
+    document.querySelectorAll('.product-card').forEach((card, i) => {
+    card.addEventListener('click', () => {
+        alert(`상품 ${i + 1} 클릭됨`);
+      // location.href = `/product-detail/${i + 1}`;
     });
 });
+}
 
-// Header icon handlers
-const iconBtns = document.querySelectorAll('.icon-btn');
-
-iconBtns.forEach((btn, index) => {
-    btn.addEventListener('click', function() {
-        if (index === 0) {
-            // Shopping cart clicked
-            console.log('Shopping cart clicked');
-            alert('장바구니');
-        } else if (index === 1) {
-            // User profile clicked
-            console.log('User profile clicked');
-            alert('사용자 프로필');
-        }
-    });
-});
-
-// Smooth scrolling for better UX
-document.addEventListener('DOMContentLoaded', function() {
+function initHeaderUI() {
     const userType = localStorage.getItem('userType');
     const headerIcons = document.querySelector('.header-icons');
 
     if (userType === 'seller') {
-    // 장바구니 버튼 제거
-    const cartWrapper = headerIcons.querySelector('.icon-wrapper:first-child');
-    if (cartWrapper) {
-    cartWrapper.remove();
-    }
+    const cart = headerIcons.querySelector('.icon-wrapper:first-child');
+    if (cart) cart.remove();
 
-    // 판매자 센터 버튼 추가
-    const sellerBtn = document.createElement('button');
-    sellerBtn.classList.add('seller-center-btn');
-    sellerBtn.textContent = '판매자 센터';
-    sellerBtn.addEventListener('click', function() {
-    window.location.href = 'seller-center.html';
-    });
-
-    headerIcons.appendChild(sellerBtn);
+    const btn = document.createElement('button');
+    btn.className = 'seller-center-btn';
+    btn.textContent = '판매자 센터';
+    btn.addEventListener('click', () => location.href = 'seller-center.html');
+    headerIcons.appendChild(btn);
 }
 
-    // Add smooth scroll behavior
-    document.documentElement.style.scrollBehavior = 'smooth';
-    
-    // Initialize first slide as active
-    showSlide(0);
+    document.getElementById('loginBtn').addEventListener('click', () => location.href = 'login.html');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchProducts();
 });
 
-// Add loading animation for product images
-const productImages = document.querySelectorAll('.product-image img');
+async function fetchProducts() {
+    const url = 'https://api.weniops.co.kr/services/open-market/products/';
+    const token = localStorage.getItem('accessToken');
 
-productImages.forEach(img => {
-    img.addEventListener('load', function() {
-        this.style.opacity = '1';
+    try {
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+        }
     });
-    
-    img.addEventListener('error', function() {
-        this.src = '/placeholder.svg?height=200&width=200&text=이미지 없음';
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        console.error('상품 조회 실패:', data);
+        alert('상품 목록을 불러오지 못했습니다.');
+        return;
+    }
+
+    console.log('상품 목록:', data);
+    renderProducts(data.results);
+
+    } catch (err) {
+    console.error('네트워크 에러:', err);
+    alert('네트워크 오류');
+    }
+}
+
+// 렌더링용 예시 함수
+function renderProducts(products) {
+    const container = document.querySelector('.products-grid');
+    container.innerHTML = '';
+
+    products.forEach(product => {
+    const div = document.createElement('div');
+    div.className = 'product-card';
+    div.innerHTML = `
+        <div class="product-image"><img src="${product.image}" alt="${product.name}"></div>
+        <div class="product-info">
+        <p class="product-category">${product.seller.store_name}</p>
+        <h3 class="product-title">${product.name}</h3>
+        <p class="product-price">${product.price.toLocaleString()}원</p>
+        </div>
+    `;
+    container.appendChild(div);
     });
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const sellerName = '홍길동'; // 실제 seller name 값으로 대체
+    fetchSellerProducts(sellerName);
 });
+
+async function fetchSellerProducts(sellerName) {
+    const url = `https://api.weniops.co.kr/services/open-market/${encodeURIComponent(sellerName)}/products/`;
+    const token = localStorage.getItem('accessToken');
+
+    try {
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+        }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        console.error('판매자 상품 조회 실패:', data);
+        alert(data.detail || '판매자 상품을 불러오지 못했습니다.');
+        return;
+    }
+
+    console.log('판매자 상품 목록:', data);
+    renderProducts(data.results);
+
+    } catch (err) {
+    console.error('네트워크 에러:', err);
+    alert('네트워크 오류');
+    }
+}
